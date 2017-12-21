@@ -1,12 +1,12 @@
 from unittest import mock
 
 from django.test import SimpleTestCase
-from django_test_tools.file_utils import temporary_file
-
-
+from django_test_tools.file_utils import temporary_file, serialize_data
+import environ
+from django_requirements_tool.exceptions import RequirementsToolException
 from django_requirements_tool.pip.utils import parse_specifier, list_outdated_libraries, update_outdated_libraries, \
-    get_latest_version, read_requirement_file
-
+    get_latest_version, read_requirement_file, get_pypi_info
+import json
 
 class TestParseSpecifier(SimpleTestCase):
     def test_parse_specifier(self):
@@ -141,7 +141,7 @@ class TestReadRequirementFile(SimpleTestCase):
         self.requirements.append('redis>=2.10.5\n')
 
     @mock.patch('django_requirements_tool.pip.utils.pip.main')
-    @temporary_file(extension='txt', delete_on_exit=False)
+    @temporary_file(extension='txt', delete_on_exit=True)
     def test_update_outdated_libraries(self, mock_pip_main):
         filename = self.test_update_outdated_libraries.filename
         with open(filename, 'w', encoding='utf-8') as req_file:
@@ -154,7 +154,6 @@ class TestReadRequirementFile(SimpleTestCase):
 
         with mock.patch('django_requirements_tool.pip.utils.capture', mock_capture):
             changes = update_outdated_libraries(filename)
-        #write_assertions(changes, 'changes')
 
         mock_pip_main.assert_called_with(['list', '--outdated'])
         self.assertEqual(len(changes), 2)
@@ -200,6 +199,47 @@ class TestReadRequirementFile(SimpleTestCase):
         self.assertEqual(requirements['redis']['operator'], '>=')
         self.assertEqual(requirements['redis']['version'], '2.10.5')
 
-    def test_get_latest_version(self):
+def mocked_requests_get(*args, **kwargs):
+    class MockResponse:
+        def __init__(self, json_data, status_code, reason=None):
+            self.json_data = json_data
+            self.status_code = status_code
+            self.reason = reason
+
+        def json(self):
+            return self.json_data
+
+    def _load_fixture_data(filename):
+        json_file = (environ.Path(__file__) - 1).path('fixtures', filename).root
+        with open(json_file, 'r', encoding='utf-8') as file:
+            json_data = json.load(file)
+        return json_data
+
+    if args[0] == 'https://pypi.python.org/pypi/django-test-tools/json':
+        data = _load_fixture_data('django_test_tools_20171204_2116.json')
+        return MockResponse(data,  200)
+    elif args[0] == 'https://pypi.python.org/pypi/celery/json':
+        data = _load_fixture_data('celery_20171204_2118.json')
+        return MockResponse(data, 200)
+
+    return MockResponse(None, 404, reason='Not Found (no releases)')
+
+class TestPyPiTools(SimpleTestCase):
+
+
+    @mock.patch('django_requirements_tool.pip.utils.requests.get', side_effect=mocked_requests_get)
+    def test_get_latest_version(self, mock_get):
         version = get_latest_version('celery')
         self.assertEqual(version, '4.1.0')
+        mock_get.assert_called_with('https://pypi.python.org/pypi/celery/json')
+
+    @mock.patch('django_requirements_tool.pip.utils.requests.get', side_effect=mocked_requests_get)
+    def test_get_latest_version_error(self, mock_get):
+        with self.assertRaises(RequirementsToolException) as context:
+            get_latest_version('celery-blad')
+        self.assertEqual(str(context.exception), 'Not Found (no releases)')
+
+    def test_get_pypi_info(self):
+        package_name = 'celery' #'django-test-tools'
+        pypi_info = get_pypi_info(package_name)
+        serialize_data(pypi_info,base_filename=package_name.replace('-', '_'))

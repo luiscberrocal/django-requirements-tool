@@ -1,0 +1,2 @@
+class RequirementsToolException(Exception):
+    pass

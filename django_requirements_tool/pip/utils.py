@@ -8,6 +8,8 @@ import requests
 
 from django_test_tools.file_utils import serialize_data
 
+from django_requirements_tool.exceptions import RequirementsToolException
+
 
 @contextlib.contextmanager
 def capture():
@@ -37,11 +39,20 @@ def parse_pip_list(line):
 
 
 def get_latest_version(package_name):
-    url = 'https://pypi.python.org/pypi/{}/json'.format(package_name)
-    r = requests.get(url)
-    serialize_data(r.json(), base_filename='celery')
-    versions = sorted(r.json()["releases"], key=pkg_resources.parse_version)
+    pypi_info = get_pypi_info(package_name)
+    versions = sorted(pypi_info["releases"], key=pkg_resources.parse_version)
     return versions[-1]
+
+def get_pypi_info(package_name):
+    url = 'https://pypi.python.org/pypi/{}/json'.format(package_name)
+    response = requests.get(url)
+    if response.status_code == 200:
+        return response.json()
+    elif response.status_code == 404:
+        raise RequirementsToolException(response.reason)
+    else:
+        msg = 'Received an unsupported status {} from {}'.format(response.status_code, url)
+        raise RequirementsToolException(msg)
 
 
 def parse_comes_from(comes_from):
