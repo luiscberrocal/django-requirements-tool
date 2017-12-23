@@ -2,11 +2,11 @@ from unittest import mock
 
 from django.test import SimpleTestCase
 from django_test_tools.assert_utils import write_assertions
-from django_test_tools.file_utils import temporary_file
+from django_test_tools.file_utils import temporary_file, serialize_data
 import environ
 from django_requirements_tool.exceptions import RequirementsToolException
 from django_requirements_tool.pip.utils import parse_specifier, list_outdated_libraries, update_outdated_libraries, \
-    get_latest_version, read_requirement_file, get_pypi_info
+    get_latest_version, read_requirement_file, get_pypi_info, find_outdated_libraries
 import json
 
 class TestParseSpecifier(SimpleTestCase):
@@ -214,12 +214,18 @@ def mocked_requests_get(*args, **kwargs):
         with open(json_file, 'r', encoding='utf-8') as file:
             json_data = json.load(file)
         return json_data
-
-    if args[0] == 'https://pypi.python.org/pypi/django-test-tools/json':
+    url_pattern ='https://pypi.python.org/pypi/{0}/json'
+    if args[0] == url_pattern.format('django'):
+        data = _load_fixture_data('django.json')
+        return MockResponse(data,  200)
+    if args[0] == url_pattern.format('django-test-tools'):
         data = _load_fixture_data('django_test_tools_20171204_2116.json')
         return MockResponse(data,  200)
-    elif args[0] == 'https://pypi.python.org/pypi/celery/json':
+    elif args[0] == url_pattern.format('celery'):
         data = _load_fixture_data('celery_20171204_2118.json')
+        return MockResponse(data, 200)
+    elif args[0] == url_pattern.format('redis'):
+        data = _load_fixture_data('redis_20171223_1013.json')
         return MockResponse(data, 200)
 
     return MockResponse(None, 404, reason='Not Found (no releases)')
@@ -237,7 +243,7 @@ class TestPyPiTools(SimpleTestCase):
     def test_get_latest_version_error(self, mock_get):
         with self.assertRaises(RequirementsToolException) as context:
             get_latest_version('celery-blad')
-        self.assertEqual(str(context.exception), 'Not Found (no releases)')
+        self.assertEqual(str(context.exception), 'Could not connect to https://pypi.python.org/pypi/celery-blad/json. Status 404. Not Found (no releases)')
 
     @mock.patch('django_requirements_tool.pip.utils.requests.get', side_effect=mocked_requests_get)
     def test_get_pypi_info(self, mock_get):
@@ -245,4 +251,23 @@ class TestPyPiTools(SimpleTestCase):
         pypi_info = get_pypi_info(package_name)
         #serialize_data(pypi_info,base_filename=package_name.replace('-', '_'))
         self.assertEqual(pypi_info['info']['author'], 'Bruce Wayne')
+        mock_get.assert_called_with('https://pypi.python.org/pypi/django-test-tools/json')
+
+
+class TestFindRequirements(SimpleTestCase):
+
+    def setUp(self):
+        self.requirements = list()
+        self.requirements.append('django==1.11.3 # pyup: >=1.10,<1.11\n')
+        self.requirements.append('celery==4.0.1\n')
+        self.requirements.append('redis>=2.10.5\n')
+
+    @temporary_file(extension='txt', delete_on_exit=True)
+    @mock.patch('django_requirements_tool.pip.utils.requests.get', side_effect=mocked_requests_get)
+    def test_find_outdated_libraries(self, mock_get):
+        filename = self.test_find_outdated_libraries.filename
+        with open(filename, 'w', encoding='utf-8') as req_file:
+            req_file.writelines(self.requirements)
+        results = find_outdated_libraries(filename)
+        serialize_data(results, base_filename='outdated_in_req_file')
         mock_get.assert_called_with('https://pypi.python.org/pypi/django-test-tools/json')

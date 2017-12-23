@@ -1,14 +1,10 @@
 import contextlib
+import re
 from operator import itemgetter
 
-import pkg_resources
-
 import pip
-import re
-
+import pkg_resources
 import requests
-
-from django_test_tools.file_utils import serialize_data
 
 from django_requirements_tool.exceptions import RequirementsToolException
 
@@ -19,11 +15,11 @@ def capture():
     from io import StringIO
     oldout, olderr = sys.stdout, sys.stderr
     try:
-        out=[StringIO(), StringIO()]
-        sys.stdout,sys.stderr = out
+        out = [StringIO(), StringIO()]
+        sys.stdout, sys.stderr = out
         yield out
     finally:
-        sys.stdout,sys.stderr = oldout, olderr
+        sys.stdout, sys.stderr = oldout, olderr
         out[0] = out[0].getvalue()
         out[1] = out[1].getvalue()
 
@@ -45,13 +41,15 @@ def get_latest_version(package_name):
     versions = sorted(pypi_info["releases"], key=pkg_resources.parse_version)
     return versions[-1]
 
+
 def get_pypi_info(package_name):
     url = 'https://pypi.python.org/pypi/{}/json'.format(package_name)
     response = requests.get(url)
     if response.status_code == 200:
         return response.json()
     elif response.status_code == 404:
-        raise RequirementsToolException(response.reason)
+        msg = 'Could not connect to {}. Status 404. {}'.format(url, response.reason)
+        raise RequirementsToolException(msg)
     else:
         msg = 'Received an unsupported status {} from {}'.format(response.status_code, url)
         raise RequirementsToolException(msg)
@@ -201,6 +199,25 @@ def list_outdated_libraries():
     return outdated_libraries
 
 
+def version_to_tuple(version):
+    version_info = tuple([int(num) if num.isdigit() else num for num in version.replace('-', '.', 1).split('.')])
+    return version_info
+
+
+def find_outdated_libraries(requirement_file):
+    requirements = read_requirement_file(requirement_file)
+    outdated = dict()
+    for key, requirement in requirements.items():
+        latest_version = get_latest_version(requirement['name'])
+        latest_version_info = version_to_tuple(latest_version)
+        current_version_info = version_to_tuple(requirement['version'])
+        if latest_version_info > current_version_info:
+            if requirement['operator'] == '==':
+                outdated[key] = requirement
+                outdated[key]['latest_version'] = latest_version
+    return outdated
+
+
 def update_outdated_libraries(requirement_file, **kwargs):
     """
     Updates the requirements to their latest version.
@@ -232,4 +249,3 @@ def update_outdated_libraries(requirement_file, **kwargs):
             changes.append(change)
     sorted_changes = sorted(changes, key=itemgetter('library_name'), reverse=True)
     return sorted_changes
-
