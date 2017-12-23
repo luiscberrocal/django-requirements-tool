@@ -2,6 +2,7 @@ import os
 from django.core.management import BaseCommand
 from django_test_tools.file_utils import serialize_data
 
+from django_requirements_tool.exceptions import RequirementsToolException
 from django_requirements_tool.pip.utils import get_pypi_info
 
 
@@ -46,8 +47,10 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         for package in options['packages']:
-            filename = os.path.join(options.get('output_path'), '{}.json'.format(package))
-            pypi_info = get_pypi_info(package)
-            serialize_data(pypi_info, output_file=filename)
-            self.stdout.write('Wrote {}'.format(filename))
-
+            try:
+                filename = os.path.join(options.get('output_path'), '{}.json'.format(package))
+                pypi_info = get_pypi_info(package)
+                serialize_data(pypi_info, output_file=filename)
+                self.stdout.write('Wrote {}'.format(filename))
+            except RequirementsToolException as e:
+                self.stderr.write(str(e))
