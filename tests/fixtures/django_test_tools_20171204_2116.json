@@ -1,0 +1,365 @@
+{
+    "info": {
+        "_pypi_hidden": false,
+        "_pypi_ordering": 15,
+        "author": "Bruce Wayne",
+        "author_email": "luis.berrocal.1942@gmail.com",
+        "bugtrack_url": null,
+        "cheesecake_code_kwalitee_id": null,
+        "cheesecake_documentation_id": null,
+        "cheesecake_installability_id": null,
+        "classifiers": [
+            "Development Status :: 3 - Alpha",
+            "Framework :: Django",
+            "Framework :: Django :: 1.10",
+            "Framework :: Django :: 1.11",
+            "Intended Audience :: Developers",
+            "License :: OSI Approved :: BSD License",
+            "Natural Language :: English",
+            "Programming Language :: Python :: 3.4",
+            "Programming Language :: Python :: 3.5"
+        ],
+        "description": "=============================\nDjango Test Tools\n=============================\n\n.. image:: https://badge.fury.io/py/django-test-tools.svg\n    :target: https://badge.fury.io/py/django-test-tools\n\n.. image:: https://travis-ci.org/luiscberrocal/django-test-tools.svg?branch=master\n    :target: https://travis-ci.org/luiscberrocal/django-test-tools\n\n.. image:: https://codecov.io/gh/luiscberrocal/django-test-tools/branch/master/graph/badge.svg\n    :target: https://codecov.io/gh/luiscberrocal/django-test-tools\n\n.. image:: https://landscape.io/github/luiscberrocal/django-test-tools/master/landscape.svg?style=flat\n   :target: https://landscape.io/github/luiscberrocal/django-test-tools/master\n   :alt: Code Health\n\nSimple tests tools to make testing faster and easier.\n\nSupports Python 3.4, 3.5, 3.5 with Django 1.10.7 and 1.11.x.\n\n\nDocumentation\n-------------\n\nThe full documentation is at https://django-test-tools.readthedocs.io.\n\nQuickstart\n----------\n\nInstall Django Test Tools::\n\n    pip install django-test-tools\n\nAdd it to your `INSTALLED_APPS`:\n\n.. code-block:: python\n\n    INSTALLED_APPS = (\n        ...\n        'django_test_tools.apps.DjangoTestToolsConfig',\n        ...\n    )\n\nAdd Django Test Tools's URL patterns:\n\n.. code-block:: python\n\n    from django_test_tools import urls as django_test_tools_urls\n\n\n    urlpatterns = [\n        ...\n        url(r'^', include(django_test_tools_urls)),\n        ...\n    ]\n\nFeatures\n--------\n\nFactory Generator\n++++++++++++++++++\n\n.. code-block:: bash\n\n    $  $ python manage.py generate_factories project.app\n\nModel Test Case Generator\n+++++++++++++++++++++++++\n\n.. code-block:: bash\n\n    $  $ python manage.py generate_model_test_cases project.app\n\nSerializer Generator\n++++++++++++++++++++\n\n.. code-block:: bash\n\n    $ python manage.py generate_serializers project.app -s ModelSerializer\n\nRunning Tests\n-------------\n\nDoes the code actually work?\n\n::\n\n    source <YOURVIRTUALENV>/bin/activate\n    (myenv) $ pip install tox\n    (myenv) $ tox\n\nBuilds\n------\n\nCreate a release using git-flow\n\nRun bumpversion\n\n.. code-block:: bash\n\n    $ bumpversion minor\n\n\nInstead of minor you could also use **major** o **patch** depending on the level of the release.\n\n.. code-block:: bash\n\n    python setup.py sdist bdist_wheel\n\n    python setup.py register -r pypitest\n\n    python setup.py sdist upload -r pypitest\n\n\nTo publish to pypi run:\n\n\n.. code-block:: bash\n\n    python setup.py sdist upload -r pypi\n\nCredits\n-------\n\nTools used in rendering this package:\n\n*  Cookiecutter_\n*  `cookiecutter-djangopackage`_\n\n.. _Cookiecutter: https://github.com/audreyr/cookiecutter\n.. _`cookiecutter-djangopackage`: https://github.com/pydanny/cookiecutter-djangopackage\n\n\n\n\nHistory\n-------\n\n0.1.0 (2017-04-26)\n++++++++++++++++++\n\n* First release on PyPI.\n",
+        "docs_url": null,
+        "download_url": "",
+        "downloads": {
+            "last_day": 0,
+            "last_month": 0,
+            "last_week": 0
+        },
+        "home_page": "https://github.com/luiscberrocal/django-test-tools",
+        "keywords": "django-test-tools",
+        "license": "MIT",
+        "maintainer": "",
+        "maintainer_email": "",
+        "name": "django-test-tools",
+        "package_url": "http://pypi.python.org/pypi/django-test-tools",
+        "platform": "",
+        "release_url": "http://pypi.python.org/pypi/django-test-tools/0.9.1",
+        "requires_python": "",
+        "summary": "Simple tests tools to make testing faster and easier.",
+        "version": "0.9.1"
+    },
+    "releases": {
+        "0.3.0": [
+            {
+                "comment_text": "",
+                "downloads": 0,
+                "filename": "django-test-tools-0.3.0.tar.gz",
+                "has_sig": false,
+                "md5_digest": "4e03dfdd71842cad103a5a4fb68a651a",
+                "packagetype": "sdist",
+                "path": "68/f2/f57a58af5bbf0575cd9b20ac86fd583128e593ad98c1e82cf9ac2cf577ac/django-test-tools-0.3.0.tar.gz",
+                "python_version": "source",
+                "size": 12870,
+                "upload_time": "2017-05-24T16:54:22",
+                "url": "https://pypi.python.org/packages/68/f2/f57a58af5bbf0575cd9b20ac86fd583128e593ad98c1e82cf9ac2cf577ac/django-test-tools-0.3.0.tar.gz"
+            }
+        ],
+        "0.3.1": [
+            {
+                "comment_text": "",
+                "downloads": 0,
+                "filename": "django-test-tools-0.3.1.tar.gz",
+                "has_sig": false,
+                "md5_digest": "1eaf73865673af6ab4ff00cc1b250425",
+                "packagetype": "sdist",
+                "path": "0e/49/47cf9f0c2605babb0d68f5c2a780590d9bdc224556d11a1d6b1a40a210c9/django-test-tools-0.3.1.tar.gz",
+                "python_version": "source",
+                "size": 12981,
+                "upload_time": "2017-06-01T09:36:05",
+                "url": "https://pypi.python.org/packages/0e/49/47cf9f0c2605babb0d68f5c2a780590d9bdc224556d11a1d6b1a40a210c9/django-test-tools-0.3.1.tar.gz"
+            }
+        ],
+        "0.4.0": [
+            {
+                "comment_text": "",
+                "downloads": 0,
+                "filename": "django-test-tools-0.4.0.tar.gz",
+                "has_sig": false,
+                "md5_digest": "c421a7b09124f762e833b64c022f81da",
+                "packagetype": "sdist",
+                "path": "64/e2/43b6b8b0f16746f6376736d0f8580b56615635a52b655c4dbbee44f25eee/django-test-tools-0.4.0.tar.gz",
+                "python_version": "source",
+                "size": 14760,
+                "upload_time": "2017-06-17T19:19:30",
+                "url": "https://pypi.python.org/packages/64/e2/43b6b8b0f16746f6376736d0f8580b56615635a52b655c4dbbee44f25eee/django-test-tools-0.4.0.tar.gz"
+            }
+        ],
+        "0.5.0": [
+            {
+                "comment_text": "",
+                "downloads": 0,
+                "filename": "django-test-tools-0.5.0.tar.gz",
+                "has_sig": false,
+                "md5_digest": "9f5eec7a75c362b1b6c324424cff6f8a",
+                "packagetype": "sdist",
+                "path": "89/d9/a1ad1473271dc1c4e5ee3468045ba4ef77b2df4c24561e8a882d91a94e0d/django-test-tools-0.5.0.tar.gz",
+                "python_version": "source",
+                "size": 15112,
+                "upload_time": "2017-06-20T16:15:44",
+                "url": "https://pypi.python.org/packages/89/d9/a1ad1473271dc1c4e5ee3468045ba4ef77b2df4c24561e8a882d91a94e0d/django-test-tools-0.5.0.tar.gz"
+            }
+        ],
+        "0.6.0": [
+            {
+                "comment_text": "",
+                "downloads": 0,
+                "filename": "django-test-tools-0.6.0.tar.gz",
+                "has_sig": false,
+                "md5_digest": "949a13f5e4680a233f8e46d2646a0f91",
+                "packagetype": "sdist",
+                "path": "58/60/2bee3642090ce09cf43faf88f1c706768d30cf074d03ad8651a0bb2e5e0c/django-test-tools-0.6.0.tar.gz",
+                "python_version": "source",
+                "size": 15583,
+                "upload_time": "2017-06-22T17:19:25",
+                "url": "https://pypi.python.org/packages/58/60/2bee3642090ce09cf43faf88f1c706768d30cf074d03ad8651a0bb2e5e0c/django-test-tools-0.6.0.tar.gz"
+            }
+        ],
+        "0.6.2": [
+            {
+                "comment_text": "",
+                "downloads": 0,
+                "filename": "django-test-tools-0.6.2.tar.gz",
+                "has_sig": false,
+                "md5_digest": "e433fa4d13c73e66de15b986e9a7ec08",
+                "packagetype": "sdist",
+                "path": "27/64/d88bbaa04e6277ad62c26a6d9d9a6b2da40f764be8c92754f16642f2a308/django-test-tools-0.6.2.tar.gz",
+                "python_version": "source",
+                "size": 15671,
+                "upload_time": "2017-06-22T17:37:54",
+                "url": "https://pypi.python.org/packages/27/64/d88bbaa04e6277ad62c26a6d9d9a6b2da40f764be8c92754f16642f2a308/django-test-tools-0.6.2.tar.gz"
+            }
+        ],
+        "0.7.0": [
+            {
+                "comment_text": "",
+                "downloads": 0,
+                "filename": "django-test-tools-0.7.0.tar.gz",
+                "has_sig": false,
+                "md5_digest": "45a3e367798a99943fdb4e086449fc3a",
+                "packagetype": "sdist",
+                "path": "a4/e7/499a7b9c077428169f4cc9dc9a6246a3ae8f645111d46e99adfb6781aad2/django-test-tools-0.7.0.tar.gz",
+                "python_version": "source",
+                "size": 16611,
+                "upload_time": "2017-06-26T16:02:45",
+                "url": "https://pypi.python.org/packages/a4/e7/499a7b9c077428169f4cc9dc9a6246a3ae8f645111d46e99adfb6781aad2/django-test-tools-0.7.0.tar.gz"
+            }
+        ],
+        "0.7.1": [
+            {
+                "comment_text": "",
+                "downloads": 0,
+                "filename": "django-test-tools-0.7.1.tar.gz",
+                "has_sig": false,
+                "md5_digest": "e1c08c5f3bc3431a6f65eea3a7f5d8b5",
+                "packagetype": "sdist",
+                "path": "57/ec/98a17ed3cde1ea6b9e3667d6eb7a39fcf3dfded0545cf44b8b609511e901/django-test-tools-0.7.1.tar.gz",
+                "python_version": "source",
+                "size": 17872,
+                "upload_time": "2017-07-08T18:08:10",
+                "url": "https://pypi.python.org/packages/57/ec/98a17ed3cde1ea6b9e3667d6eb7a39fcf3dfded0545cf44b8b609511e901/django-test-tools-0.7.1.tar.gz"
+            }
+        ],
+        "0.7.2": [
+            {
+                "comment_text": "",
+                "downloads": 0,
+                "filename": "django-test-tools-0.7.2.tar.gz",
+                "has_sig": false,
+                "md5_digest": "d7157fe46e5e0ade93dfb3a9f19e349d",
+                "packagetype": "sdist",
+                "path": "dc/07/1315d6d0a8124af401913bbd7cd0d665104d3fdc10f478ddf0757ca44219/django-test-tools-0.7.2.tar.gz",
+                "python_version": "source",
+                "size": 21458,
+                "upload_time": "2017-08-03T20:16:50",
+                "url": "https://pypi.python.org/packages/dc/07/1315d6d0a8124af401913bbd7cd0d665104d3fdc10f478ddf0757ca44219/django-test-tools-0.7.2.tar.gz"
+            }
+        ],
+        "0.7.3": [
+            {
+                "comment_text": "",
+                "downloads": 0,
+                "filename": "django-test-tools-0.7.3.tar.gz",
+                "has_sig": false,
+                "md5_digest": "a2cd624e01f6d363495837feb6ab477c",
+                "packagetype": "sdist",
+                "path": "33/a7/153ba2160898ee3f82e8e3bd1049a227fa2fae8fb969196980cfdd165bf9/django-test-tools-0.7.3.tar.gz",
+                "python_version": "source",
+                "size": 21575,
+                "upload_time": "2017-08-04T15:35:14",
+                "url": "https://pypi.python.org/packages/33/a7/153ba2160898ee3f82e8e3bd1049a227fa2fae8fb969196980cfdd165bf9/django-test-tools-0.7.3.tar.gz"
+            }
+        ],
+        "0.7.5": [
+            {
+                "comment_text": "",
+                "downloads": 0,
+                "filename": "django-test-tools-0.7.5.tar.gz",
+                "has_sig": false,
+                "md5_digest": "95e5ecd6233ebcb41e164143dde1fdbd",
+                "packagetype": "sdist",
+                "path": "b2/7d/f884cbc64979d5d0296345ac0b562c1b091d321d25bdf573883cd7cacb09/django-test-tools-0.7.5.tar.gz",
+                "python_version": "source",
+                "size": 21496,
+                "upload_time": "2017-09-10T16:43:07",
+                "url": "https://pypi.python.org/packages/b2/7d/f884cbc64979d5d0296345ac0b562c1b091d321d25bdf573883cd7cacb09/django-test-tools-0.7.5.tar.gz"
+            }
+        ],
+        "0.7.6": [
+            {
+                "comment_text": "",
+                "downloads": 0,
+                "filename": "django-test-tools-0.7.6.tar.gz",
+                "has_sig": false,
+                "md5_digest": "aa20a7b85ba2d44976f620b09adcbcb2",
+                "packagetype": "sdist",
+                "path": "6b/dc/92b6162def4439067cbae324268103ce4e0178d32a97cec68103208f5b1f/django-test-tools-0.7.6.tar.gz",
+                "python_version": "source",
+                "size": 21830,
+                "upload_time": "2017-11-09T14:07:09",
+                "url": "https://pypi.python.org/packages/6b/dc/92b6162def4439067cbae324268103ce4e0178d32a97cec68103208f5b1f/django-test-tools-0.7.6.tar.gz"
+            },
+            {
+                "comment_text": "",
+                "downloads": 0,
+                "filename": "django_test_tools-0.7.6-py2.py3-none-any.whl",
+                "has_sig": false,
+                "md5_digest": "548201cc707736828eecbfa16e0ca3a0",
+                "packagetype": "bdist_wheel",
+                "path": "21/79/d4ba61888b45d3d4d12e92831eb4ae2afaa61bf9e784a5daee2a68d0f309/django_test_tools-0.7.6-py2.py3-none-any.whl",
+                "python_version": "3.5",
+                "size": 28948,
+                "upload_time": "2017-11-09T14:07:10",
+                "url": "https://pypi.python.org/packages/21/79/d4ba61888b45d3d4d12e92831eb4ae2afaa61bf9e784a5daee2a68d0f309/django_test_tools-0.7.6-py2.py3-none-any.whl"
+            }
+        ],
+        "0.7.7": [
+            {
+                "comment_text": "",
+                "downloads": 0,
+                "filename": "django-test-tools-0.7.7.tar.gz",
+                "has_sig": false,
+                "md5_digest": "212c39ae876b6e4a91f124ea6ea6d553",
+                "packagetype": "sdist",
+                "path": "f0/92/adf985de34aea88f980bd93dc74847c8b335f4b854a9c887aacb293f158f/django-test-tools-0.7.7.tar.gz",
+                "python_version": "source",
+                "size": 22986,
+                "upload_time": "2017-11-21T16:38:46",
+                "url": "https://pypi.python.org/packages/f0/92/adf985de34aea88f980bd93dc74847c8b335f4b854a9c887aacb293f158f/django-test-tools-0.7.7.tar.gz"
+            },
+            {
+                "comment_text": "",
+                "downloads": 0,
+                "filename": "django_test_tools-0.7.7-py2.py3-none-any.whl",
+                "has_sig": false,
+                "md5_digest": "f71af23baaaf81c213097ea5ffe1f119",
+                "packagetype": "bdist_wheel",
+                "path": "42/fb/f13c64ded1cbfaf49de6ef701ce99aee00e474d1f764f6ac4fd289f24145/django_test_tools-0.7.7-py2.py3-none-any.whl",
+                "python_version": "3.5",
+                "size": 31058,
+                "upload_time": "2017-11-21T16:38:48",
+                "url": "https://pypi.python.org/packages/42/fb/f13c64ded1cbfaf49de6ef701ce99aee00e474d1f764f6ac4fd289f24145/django_test_tools-0.7.7-py2.py3-none-any.whl"
+            }
+        ],
+        "0.8.1": [
+            {
+                "comment_text": "",
+                "downloads": 0,
+                "filename": "django-test-tools-0.8.1.tar.gz",
+                "has_sig": false,
+                "md5_digest": "11bda3b39203e37035b37dcb972af282",
+                "packagetype": "sdist",
+                "path": "be/d6/29d3d50e69264c4bd15516a26317348155f47cf79a6d26937c3ed35ff4f9/django-test-tools-0.8.1.tar.gz",
+                "python_version": "source",
+                "size": 23084,
+                "upload_time": "2017-11-27T13:01:05",
+                "url": "https://pypi.python.org/packages/be/d6/29d3d50e69264c4bd15516a26317348155f47cf79a6d26937c3ed35ff4f9/django-test-tools-0.8.1.tar.gz"
+            }
+        ],
+        "0.9.0": [
+            {
+                "comment_text": "",
+                "downloads": 0,
+                "filename": "django-test-tools-0.9.0.tar.gz",
+                "has_sig": false,
+                "md5_digest": "cc28f9ab8f7021eb21ebe2788f6e6c45",
+                "packagetype": "sdist",
+                "path": "57/93/1175d7075c7d756189924a8ce3057a699de802e1c068387439abdfaa09bb/django-test-tools-0.9.0.tar.gz",
+                "python_version": "source",
+                "size": 23778,
+                "upload_time": "2017-11-28T14:13:00",
+                "url": "https://pypi.python.org/packages/57/93/1175d7075c7d756189924a8ce3057a699de802e1c068387439abdfaa09bb/django-test-tools-0.9.0.tar.gz"
+            },
+            {
+                "comment_text": "",
+                "downloads": 0,
+                "filename": "django_test_tools-0.9.0-py2.py3-none-any.whl",
+                "has_sig": false,
+                "md5_digest": "820590e77ec37ea02835e402bb76ac63",
+                "packagetype": "bdist_wheel",
+                "path": "65/96/0b851d4c0cde15464142140a9497e39aa5c6824987cacb8ee512e73e320b/django_test_tools-0.9.0-py2.py3-none-any.whl",
+                "python_version": "3.5",
+                "size": 32284,
+                "upload_time": "2017-11-28T14:13:09",
+                "url": "https://pypi.python.org/packages/65/96/0b851d4c0cde15464142140a9497e39aa5c6824987cacb8ee512e73e320b/django_test_tools-0.9.0-py2.py3-none-any.whl"
+            }
+        ],
+        "0.9.1": [
+            {
+                "comment_text": "",
+                "downloads": 0,
+                "filename": "django-test-tools-0.9.1.tar.gz",
+                "has_sig": false,
+                "md5_digest": "eefed957522895c20aab6ec5dbc892bd",
+                "packagetype": "sdist",
+                "path": "81/3b/664b42cb1ef49623129a64e40bbb8fbdcb16cc703db3e5e98a6f4353aeef/django-test-tools-0.9.1.tar.gz",
+                "python_version": "source",
+                "size": 24127,
+                "upload_time": "2017-12-04T13:14:15",
+                "url": "https://pypi.python.org/packages/81/3b/664b42cb1ef49623129a64e40bbb8fbdcb16cc703db3e5e98a6f4353aeef/django-test-tools-0.9.1.tar.gz"
+            },
+            {
+                "comment_text": "",
+                "downloads": 0,
+                "filename": "django_test_tools-0.9.1-py2.py3-none-any.whl",
+                "has_sig": false,
+                "md5_digest": "f03a4645fb12e3aebd9aaa881ac138dc",
+                "packagetype": "bdist_wheel",
+                "path": "9a/a7/5a75670c17b3997751a27d55b07de2fbe13cfa81e5334642c31213a4f8d6/django_test_tools-0.9.1-py2.py3-none-any.whl",
+                "python_version": "3.5",
+                "size": 32678,
+                "upload_time": "2017-12-04T13:14:18",
+                "url": "https://pypi.python.org/packages/9a/a7/5a75670c17b3997751a27d55b07de2fbe13cfa81e5334642c31213a4f8d6/django_test_tools-0.9.1-py2.py3-none-any.whl"
+            }
+        ]
+    },
+    "urls": [
+        {
+            "comment_text": "",
+            "downloads": 0,
+            "filename": "django-test-tools-0.9.1.tar.gz",
+            "has_sig": false,
+            "md5_digest": "eefed957522895c20aab6ec5dbc892bd",
+            "packagetype": "sdist",
+            "path": "81/3b/664b42cb1ef49623129a64e40bbb8fbdcb16cc703db3e5e98a6f4353aeef/django-test-tools-0.9.1.tar.gz",
+            "python_version": "source",
+            "size": 24127,
+            "upload_time": "2017-12-04T13:14:15",
+            "url": "https://pypi.python.org/packages/81/3b/664b42cb1ef49623129a64e40bbb8fbdcb16cc703db3e5e98a6f4353aeef/django-test-tools-0.9.1.tar.gz"
+        },
+        {
+            "comment_text": "",
+            "downloads": 0,
+            "filename": "django_test_tools-0.9.1-py2.py3-none-any.whl",
+            "has_sig": false,
+            "md5_digest": "f03a4645fb12e3aebd9aaa881ac138dc",
+            "packagetype": "bdist_wheel",
+            "path": "9a/a7/5a75670c17b3997751a27d55b07de2fbe13cfa81e5334642c31213a4f8d6/django_test_tools-0.9.1-py2.py3-none-any.whl",
+            "python_version": "3.5",
+            "size": 32678,
+            "upload_time": "2017-12-04T13:14:18",
+            "url": "https://pypi.python.org/packages/9a/a7/5a75670c17b3997751a27d55b07de2fbe13cfa81e5334642c31213a4f8d6/django_test_tools-0.9.1-py2.py3-none-any.whl"
+        }
+    ]
+}

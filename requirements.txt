@@ -1,2 +1,2 @@
-
 # Additional requirements go here
+requests==2.18
