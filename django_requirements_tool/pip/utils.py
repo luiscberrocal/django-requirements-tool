@@ -1,4 +1,6 @@
 import contextlib
+from operator import itemgetter
+
 import pkg_resources
 
 import pip
@@ -74,6 +76,71 @@ def parse_specifier(specifier):
 
 
 def read_requirement_file(req_file):
+    """
+    Will read a requirement file and will return a dictionary with a key for every requirement.
+    Every requirement will have the following keys:
+
+    * **comes_from** has four keys:
+
+        * **file_indicator**: to indicate if the requirement is recursive whe the pip install command was ran.
+        usually -r
+        * **filename**: full path to the requirement file where the requirement was found.
+        * **line_no**: Line number where the requirement is found.
+        * **value**: This what the pip library returns. Its just used for debug pourposes.
+
+    * **name**: Name of the library.
+    * **operator**: the operator for the version ==, >=. Current version only supporst this two operators. See
+        parse_specifier method.
+    * **version**: version number.
+
+    from a requirement file like::
+
+        celery==4.0.1
+        django==1.11.3
+        redis>=2.10.5
+
+    wille generate a dictionary like:
+
+    ..code-block:: python
+
+        {
+            "celery": {
+                "comes_from": {
+                    "file_indicator": "-r",
+                    "filename": "requirements/requirements.txt",
+                    "line_no": 2,
+                    "value": "-r requirements/requirements.txt (line 2)"
+                },
+                "name": "celery",
+                "operator": "==",
+                "version": "4.0.1"
+            },
+            "django": {
+                "comes_from": {
+                    "file_indicator": "-r",
+                    "filename": "requirements/requirements.txt",
+                    "line_no": 1,
+                    "value": "-r requirements/requirements.txt (line 1)"
+                },
+                "name": "django",
+                "operator": "==",
+                "version": "1.11.3"
+            },
+            "redis": {
+                "comes_from": {
+                    "file_indicator": "-r",
+                    "filename": "requirements/requirements.txt",
+                    "line_no": 3,
+                    "value": "-r requirements/requirements.txt (line 3)"
+                },
+                "name": "redis",
+                "operator": ">=",
+                "version": "2.10.5"
+            }
+        }
+    :param req_file:
+    :return:
+    """
     requirements = dict()
     for item in pip.req.parse_requirements(req_file, session="somesession"):
         if isinstance(item, pip.req.InstallRequirement):
@@ -95,14 +162,42 @@ def read_requirement_file(req_file):
 
 
 def list_outdated_libraries():
+    """
+    Will run the command pip list --outdated parse the result and return a dictionary of packages that are installed
+    but outdated.
+
+    for example the function would return a dictionary like this:
+
+    .. code-block:: python
+
+
+        {
+            "binaryornot": {
+                "current_version": "0.4.3",
+                "name": "binaryornot",
+                "new_version": "1.4.4"
+            },
+            "chardet": {
+                "current_version": "3.0.2",
+                "name": "chardet",
+                "new_version": "3.0.4"
+            },
+            "cookiecutter": {
+                "current_version": "1.5.1",
+                "name": "cookiecutter",
+                "new_version": "1.6.0"
+            }
+        }
+    :return: dict with outdated libaries.
+    """
     with capture() as out:
         pip.main(['list', '--outdated'])
     library_lines = out[0].split('\n')
-    outdated_libraries = list()
+    outdated_libraries = dict()
     for line in library_lines:
         library = parse_pip_list(line)
         if library is not None:
-            outdated_libraries.append(library)
+            outdated_libraries[library['name']] = library
     return outdated_libraries
 
 
@@ -112,12 +207,12 @@ def update_outdated_libraries(requirement_file, **kwargs):
 
     :param requirement_file: String with the path to the requirement fiel
     :param kwargs:
-    :return: list of dictionaries containting the changes
+    :return: list of dictionaries containing the changes
     """
     requirements = read_requirement_file(requirement_file)
     outdated_libraries = list_outdated_libraries()
     changes = list()
-    for outdated_library in outdated_libraries:
+    for outdated_library in outdated_libraries.values():
         library_name = outdated_library['name']
         if requirements.get(library_name):
             change = dict()
@@ -135,5 +230,6 @@ def update_outdated_libraries(requirement_file, **kwargs):
                 file.writelines(data)
             change['line_no'] = line_no
             changes.append(change)
-    return changes
+    sorted_changes = sorted(changes, key=itemgetter('library_name'), reverse=True)
+    return sorted_changes
 

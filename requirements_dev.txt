@@ -1,7 +1,7 @@
 -r requirements.txt
-django==1.11.7
+django==1.11.8
 wheel==0.30.0
 django-environ==0.4.4
 bumpversion==0.5.3
 wheel==0.30.0
-django-test-tools==0.9.1
+django-test-tools==1.0.0
