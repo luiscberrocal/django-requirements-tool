@@ -56,7 +56,7 @@ def get_pypi_info(package_name):
 
 
 def parse_comes_from(comes_from):
-    regexp = re.compile(r'(\-r)\s([/\w\.\-]*)\s\(line\s(\d*)\)')
+    regexp = re.compile(r'(\-r)\s([/\w\.\-\\\:]*)\s\(line\s(\d*)\)')
     match = regexp.match(comes_from)
     if match:
         return match.group(1), match.group(2), int(match.group(3))
