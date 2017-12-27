@@ -15,7 +15,7 @@ class GetPyPiInfoCommand(TestCommandMixin, SimpleTestCase):
                      stdout=self.content,
                      stderr=self.error_content)
         results = self.get_results()
-        regexp = re.compile(r'Wrote\s([\w\/-]*\.json)')
+        regexp = re.compile(r'Wrote\s([\w\/\-\:\\\\]*\.json)')
         match = regexp.match(results[0])
         self.assertTrue(os.path.exists(match.group(1)))
         os.remove(match.group(1))
